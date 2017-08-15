@@ -4,29 +4,33 @@ import './App.css';
 
 class App extends Component {
 
-  state = {
-    top100: undefined
+  constructor(props) {
+    super(props)
+    this.state = {
+      top100: null
+    }
   }
 
-  //Get FCC data 
+  //Get FCC data
 getFCCData(url) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-    //  console.log(JSON.parse(xhttp.response));
+    console.log('this is readyState', this.readyState)
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+    console.log(JSON.parse(xhttp.response));
      this.setState({top100: JSON.parse(xhttp.response)});
      console.log(this.state.top100);
     }
-  };
+  }.bind(this)
   //Set up for the request (directions)
   xhttp.open("GET", url, true);
   //Request fires
   xhttp.send();
-};
+}
 
 
 componentDidMount(){
-this.getFCCData("https://fcctop100.herokuapp.com/api/fccusers/top/recent");
+  this.getFCCData("https://fcctop100.herokuapp.com/api/fccusers/top/recent");
 }
 
 
@@ -46,7 +50,7 @@ this.getFCCData("https://fcctop100.herokuapp.com/api/fccusers/top/recent");
 
         </tr>
           </tbody>
-      
+
       </table>
       </div>
     );
